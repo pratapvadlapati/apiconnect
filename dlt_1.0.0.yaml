@@ -1,0 +1,48 @@
+swagger: '2.0'
+info:
+  title: dlt
+  x-ibm-name: dlt
+  version: 1.0.0
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - proxy:
+          title: proxy
+          version: 1.0.0
+          verb: DELETE
+          target-url: $(target-url)
+  properties:
+    target-url:
+      value: 'http://localhost:3009/delete'
+      description: The URL of the target service
+      encoded: false
+  catalogs: {}
+  application-authentication:
+    certificate: false
+basePath: /dlt
+paths:
+  /dlt:
+    patch:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+  - clientID: []
+schemes:
+  - https

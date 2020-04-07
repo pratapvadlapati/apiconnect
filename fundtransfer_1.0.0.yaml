@@ -1,0 +1,145 @@
+swagger: '2.0'
+info:
+  title: FundTransfer
+  x-ibm-name: fundtransfer
+  version: 1.0.0
+  description: This api will transfer funds as IMPS.
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - proxy:
+          title: MS-FT-IMPS
+          version: 1.0.0
+          verb: keep
+          target-url: $(target-url)
+          description: This proxy will invoke micro-service url.
+          timeout: 30
+  properties:
+    target-url:
+      value: 'http://localhost:3005/fundtransfer/imps'
+      description: The URL of the target service.
+      encoded: false
+  application-authentication:
+    certificate: false
+  catalogs: {}
+basePath: /fundtransfer
+paths:
+  /imps:
+    get:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+    put:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            $ref: '#/definitions/impsReq'
+      consumes: []
+      produces: []
+    delete:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+    options:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+    head:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+    patch:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+securityDefinitions:
+  Secret key:
+    type: apiKey
+    name: X-IBM-Client-Secret
+    in: header
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+  - Secret key: []
+    clientID: []
+schemes:
+  - https
+produces:
+  - application/json
+consumes:
+  - application/json
+parameters:
+  Payee:
+    name: Payee
+    in: body
+    required: true
+    schema:
+      type: integer
+      format: int64
+  Amount:
+    name: Amount
+    in: body
+    required: true
+    schema:
+      type: integer
+      format: int32
+  TransactionMessage:
+    name: TransactionMessage
+    in: body
+    schema:
+      type: string
+tags:
+  - name: FundTransfer
+    description: This API will transfer funds as IMPS.
+definitions:
+  impsReq:
+    type: object
+    description: imps request
+    additionalProperties: false
+    properties:
+      Payee:
+        type: object
+        description: Account number of the reciepient
+        example: pratap
+      Amount:
+        type: object
+        description: Amount transferrable
+        example: Amount to be transfered.
